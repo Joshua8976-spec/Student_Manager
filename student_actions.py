@@ -57,3 +57,33 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
+    from flask import Flask, render_template, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+# your database setup, etc.
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/add_student', methods=['POST'])
+def add_student():
+    # your existing logic
+    pass
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json['message']
+    import chatbot
+    bot_reply = chatbot.get_response(user_message)
+    return jsonify({'reply': bot_reply})
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
+

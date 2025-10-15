@@ -60,5 +60,113 @@
     </div>
 </div>
 
+<div id="chat-container">
+  <div id="chat-box"></div>
+  <input type="text" id="user-input" placeholder="Type your message..." />
+  <button id="send-btn">Send</button>
+</div>
+
+<style>
+#chat-container {
+  width: 400px;
+  margin: 30px auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+#chat-box {
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+.message {
+  margin: 5px 0;
+}
+.user {
+  text-align: right;
+  color: blue;
+}
+.bot {
+  text-align: left;
+  color: green;
+}
+</style>
+
+<script>
+document.getElementById('send-btn').onclick = async function() {
+  const input = document.getElementById('user-input');
+  const message = input.value.trim();
+  if (!message) return;
+
+  const chatBox = document.getElementById('chat-box');
+  chatBox.innerHTML += `<div class="message user">${message}</div>`;
+  input.value = '';
+
+  const res = await fetch('/chat', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ message })
+  });
+  const data = await res.json();
+  chatBox.innerHTML += `<div class="message bot">${data.reply}</div>`;
+  chatBox.scrollTop = chatBox.scrollHeight;
+};
+</script>
+
+<hr>
+<h3>Chat with the Bot 🤖</h3>
+<div id="chat-container">
+  <div id="chat-box"></div>
+  <input type="text" id="user-input" placeholder="Type a message...">
+  <button id="send-btn">Send</button>
+</div>
+
+<style>
+#chat-container {
+  width: 400px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+}
+#chat-box {
+  height: 250px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+.message { margin: 5px 0; }
+.user { text-align: right; color: blue; }
+.bot { text-align: left; color: green; }
+</style>
+
+<script>
+document.getElementById('send-btn').onclick = async function() {
+  const input = document.getElementById('user-input');
+  const message = input.value.trim();
+  if (!message) return;
+
+  const chatBox = document.getElementById('chat-box');
+  chatBox.innerHTML += `<div class="message user">${message}</div>`;
+  input.value = '';
+
+  const res = await fetch('/chat', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ message })
+  });
+  const data = await res.json();
+  chatBox.innerHTML += `<div class="message bot">${data.reply}</div>`;
+  chatBox.scrollTop = chatBox.scrollHeight;
+};
+</script>
+
 </body>
 </html>
